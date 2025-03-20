@@ -24,6 +24,24 @@ public class Customer {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+        return email.equals(customer.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return email.hashCode();
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -32,4 +50,5 @@ public class Customer {
                 ", email='" + email + '\'' +
                 '}';
     }
+
 }

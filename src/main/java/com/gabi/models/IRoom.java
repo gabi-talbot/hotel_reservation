@@ -9,4 +9,7 @@ public interface IRoom {
     public RoomType getRoomType();
 
     public boolean isFree();
+
+    public void setIsFree(boolean b);
+
 }

@@ -4,11 +4,13 @@ public class Room implements IRoom {
     private String roomNumber;
     Double price;
     private RoomType roomType;
+    private boolean isFree;
 
     public Room(String roomNumber, Double price, RoomType roomType) {
         this.roomNumber = roomNumber;
         this.price = price;
         this.roomType = roomType;
+        this.isFree = true;
     }
     @Override
     public String getRoomNumber() {
@@ -27,7 +29,13 @@ public class Room implements IRoom {
 
     @Override
     public boolean isFree() {
-        return false;
+        return this.isFree;
+    }
+
+    // sets the room availability status
+    @Override
+    public void setIsFree(boolean isFree) {
+        this.isFree = isFree;
     }
 
     @Override
