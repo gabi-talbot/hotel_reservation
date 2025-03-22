@@ -18,6 +18,7 @@ public class CustomerService {
 
     // Private class variable only accessible via the getInstance method
     private static final CustomerService reference = new CustomerService();
+    // should this be a class constant or is it ok as we only have one instance?
     private Map<String, Customer> customerMap;
 
     private CustomerService() {

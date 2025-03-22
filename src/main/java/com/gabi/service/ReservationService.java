@@ -28,8 +28,8 @@ public class ReservationService {
         return reference;
     }
 
-    public void addRoom(IRoom room) {
-        rooms.put(room.getRoomNumber(), room);
+    public void addRoom(List<IRoom> roomsList) {
+        roomsList.forEach(room -> rooms.put(room.getRoomNumber(), room));
     }
 
     public IRoom getARoom(String roomId) {
@@ -69,5 +69,8 @@ public class ReservationService {
 
     public void printAllReservations(){
         reservations.forEach(System.out::println);
+    }
+    public List<IRoom> getRooms() {
+        return new ArrayList<>(rooms.values());
     }
 }

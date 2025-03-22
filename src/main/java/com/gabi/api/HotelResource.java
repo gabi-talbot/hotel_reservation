@@ -11,14 +11,13 @@ import java.util.List;
 
 public class HotelResource {
 
+    // autowiring service instances
+    private static final CustomerService customerService = CustomerService.getInstance();
+    private static final ReservationService reservationService = ReservationService.getInstance();
     // static reference
-    private static CustomerService customerService = CustomerService.getInstance();
-    private static ReservationService reservationService = ReservationService.getInstance();
-    private static final HotelResource reference = new HotelResource(customerService, reservationService);
+    private static final HotelResource reference = new HotelResource();
 
-    private HotelResource(CustomerService customerService, ReservationService reservationService) {
-        HotelResource.customerService = customerService;
-        HotelResource.reservationService = reservationService;
+    private HotelResource() {
     }
 
     public static HotelResource getInstance() {
