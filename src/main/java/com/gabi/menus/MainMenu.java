@@ -39,32 +39,45 @@ public class MainMenu {
     public void findAndReserve(Scanner sc) {
         System.out.println("Enter check in date mm/dd/yyyy eg: 12/03/2025");
         String inDate = sc.nextLine();
-        // Convert string to date
-        Date checkInDate = null;
-        try {
-            checkInDate = formatter.parse(inDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        // Convert string to Date
+        Date checkInDate = checkDate(inDate);
 
         System.out.println("Enter check out date mm/dd/yyyy eg: 12/03/2025");
         String outDate = sc.nextLine();
-        Date checkOutDate = null;
-        try {
-            checkOutDate = formatter.parse(outDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        // call private utility methods to find and book a room
-        findRooms(checkInDate, checkOutDate);
-        Reservation reservation = booking(sc, checkInDate, checkOutDate);
+        // Convert String to Date
+        Date checkOutDate = checkDate(outDate);
 
+        // find available rooms
+        findRooms(checkInDate, checkOutDate);
+        // check if customer has an account
+        System.out.println("Would you like to book a room? y/n");
+        String answer1 = sc.next();
+        if (answer1.equalsIgnoreCase("n")) {
+            return;
+        }
+        System.out.println("Do you have an account? y/n");
+        String answer2 = sc.next();
+        if (answer2.equalsIgnoreCase("n")) {
+            System.out.println("Please create an account before continuing");
+            return;
+        }
+
+        // method called if customer has an account and wants to book a room
+        Reservation reservation = booking(sc, checkInDate, checkOutDate);
         // confirm booking
         System.out.println(reservation.toString());
 
+    }
 
-
-
+    private Date checkDate(String date){
+        Date checkedDate = null;
+        try {
+            checkedDate = formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println("Please enter a valid date mm/dd/yyyy eg: 12/03/2025");
+        }
+        return checkedDate;
     }
 
     private void findRooms(Date checkInDate, Date checkOutDate) {
