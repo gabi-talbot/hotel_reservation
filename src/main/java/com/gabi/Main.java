@@ -30,20 +30,24 @@ public class Main {
 
         do {
             mainMenu.display();
+
             try {
                 input = sc.nextInt();
             }
             catch (InputMismatchException e) {
                 System.out.println("Input must be a valid number");
-                break;
+                sc.nextLine();
+                continue;
             }
 
-            if (input >= 6) {
+            if (input >= 6 || input <= 0) {
                 System.out.println("Input must be a valid number");
             }
 
             switch (input) {
                 case 1: mainMenu.findAndReserve(sc);
+                continue;
+                case 2: mainMenu.seeReservations(sc);
             }
         }while (input != 5);
 

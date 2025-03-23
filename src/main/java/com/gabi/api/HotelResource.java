@@ -8,6 +8,8 @@ import com.gabi.service.ReservationService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class HotelResource {
 
@@ -26,7 +28,7 @@ public class HotelResource {
         return reference;
     }
 
-    public Customer getCustomer(String email) {
+    public Optional<Customer> getCustomer(String email) {
         return customerService.getCustomer(email);
     }
 
@@ -39,13 +41,14 @@ public class HotelResource {
         return reservationService.getARoom(roomNumber);
     }
 
-    public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate) {
-        Customer customer = customerService.getCustomer(customerEmail);
+    public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate)
+            throws NoSuchElementException {
+        Customer customer = customerService.getCustomer(customerEmail).orElseThrow();
         return reservationService.reserveARoom(customer, room, checkInDate,checkOutDate);
     }
 
-    public List<Reservation> getCustomerReservations(String customerEmail) {
-        Customer customer = customerService.getCustomer(customerEmail);
+    public List<Reservation> getCustomerReservations(String customerEmail) throws NoSuchElementException {
+        Customer customer = customerService.getCustomer(customerEmail).orElseThrow();
         return reservationService.getCustomerReservations(customer);
     }
 

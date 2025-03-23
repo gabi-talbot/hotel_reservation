@@ -42,7 +42,7 @@ public class Filler {
         reservationService.addRoom(ls);
 
         // add a reservation to room 101
-        Customer customer = customerService.getCustomer("mary@gmail.com");
+        Customer customer = customerService.getCustomer("mary@gmail.com").orElseThrow();
         IRoom room = reservationService.getARoom("101");
         Date checkIn = new GregorianCalendar(2025, Calendar.MAY, 1).getTime();
         Date checkOut = new GregorianCalendar(2025, Calendar.MAY, 2).getTime();

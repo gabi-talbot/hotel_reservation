@@ -7,10 +7,7 @@ import com.gabi.models.Room;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainMenu {
 
@@ -80,6 +77,24 @@ public class MainMenu {
 
     }
 
+    public void seeReservations(Scanner sc) {
+        sc.nextLine();
+        System.out.println("Enter your email address");
+        String email = sc.nextLine();
+        try {
+            // TODO: to add email validation to input in service class
+            hotelResource.getCustomerReservations(email);
+        } catch (NoSuchElementException e) {
+            System.out.println("Customer does not exist. Please create an account to continue");
+            return;
+        }
+
+        // return and display reservations
+        List<Reservation> reservations = hotelResource.getCustomerReservations(email);
+        reservations.forEach(System.out::println);
+
+    }
+
     private Date checkDate(String date){
         Date checkedDate = null;
         try {
@@ -108,4 +123,5 @@ public class MainMenu {
 
         return hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
     }
+
 }

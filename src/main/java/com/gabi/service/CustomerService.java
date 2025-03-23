@@ -2,10 +2,7 @@ package com.gabi.service;
 
 import com.gabi.models.Customer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -34,13 +31,14 @@ public class CustomerService {
     }
 
     public void addCustomer(Customer customer) {
-        this.customerMap.put(customer.getEmail(), customer);
+        customerMap.put(customer.getEmail(), customer);
     }
 
-    public Customer getCustomer(String customerEmail){
-        return this.customerMap.get(customerEmail);
+    public Optional<Customer> getCustomer(String customerEmail){
+        Customer customer = customerMap.get(customerEmail);
+        return Optional.ofNullable(customer);
     }
     public List<Customer> getAllCustomers() {
-        return new ArrayList<>(this.customerMap.values());
+        return new ArrayList<>(customerMap.values());
     }
 }

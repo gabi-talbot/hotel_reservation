@@ -6,6 +6,7 @@ import com.gabi.service.CustomerService;
 import com.gabi.service.ReservationService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AdminResource {
 
@@ -22,7 +23,7 @@ public class AdminResource {
         return reference;
     }
 
-    public Customer getCustomer(String email) {
+    public Optional<Customer> getCustomer(String email) {
         return customerService.getCustomer(email);
     }
 
