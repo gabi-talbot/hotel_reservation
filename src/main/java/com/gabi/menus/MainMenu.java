@@ -1,13 +1,15 @@
 package com.gabi.menus;
 
 import com.gabi.api.HotelResource;
+import com.gabi.models.Customer;
 import com.gabi.models.IRoom;
 import com.gabi.models.Reservation;
-import com.gabi.models.Room;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainMenu {
 
@@ -81,8 +83,12 @@ public class MainMenu {
         sc.nextLine();
         System.out.println("Enter your email address");
         String email = sc.nextLine();
+        // check email is valid
+        if(!emailValidator(email)) {
+            return;
+        }
+        //
         try {
-            // TODO: to add email validation to input in service class
             hotelResource.getCustomerReservations(email);
         } catch (NoSuchElementException e) {
             System.out.println("Customer does not exist. Please create an account to continue");
@@ -92,6 +98,26 @@ public class MainMenu {
         // return and display reservations
         List<Reservation> reservations = hotelResource.getCustomerReservations(email);
         reservations.forEach(System.out::println);
+
+    }
+
+    public void createAccount(Scanner sc) {
+        sc.nextLine();
+        System.out.println("Enter your email address");
+        String email = sc.nextLine();
+        System.out.println("Enter your first name");
+        String firstName = sc.nextLine();
+        System.out.println("Enter your last name");
+        String lastName = sc.nextLine();
+
+        try{
+            hotelResource.createCustomer(firstName, lastName, email);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        Optional<Customer> customer = hotelResource.getCustomer(email);
+        customer.ifPresent(System.out::println);
 
     }
 
@@ -123,5 +149,12 @@ public class MainMenu {
 
         return hotelResource.bookARoom(email, room, checkInDate, checkOutDate);
     }
+
+    private boolean emailValidator(String email) {
+        Pattern pattern = Pattern.compile("^(.+)@(.+\\.)(com|co\\.uk|org|net)$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
 
 }

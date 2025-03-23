@@ -20,7 +20,7 @@ public class Customer {
      * Helper method to validate email input
      */
     private boolean emailValidator(String email) {
-        Pattern pattern = Pattern.compile("^(.+)@(.+).(com|co.uk|org|net)$");
+        Pattern pattern = Pattern.compile("^(.+)@(.+\\.)(com|co\\.uk|org|net)$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }

@@ -48,6 +48,11 @@ public class Main {
                 case 1: mainMenu.findAndReserve(sc);
                 continue;
                 case 2: mainMenu.seeReservations(sc);
+                continue;
+                case 3: mainMenu.createAccount(sc);
+                continue;
+                // when exiting this method will relinquish control
+                case 4: adminMenu.display();
             }
         }while (input != 5);
 
