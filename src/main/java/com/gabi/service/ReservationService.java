@@ -42,23 +42,34 @@ public class ReservationService {
         // Create reservation and add reservation to Collection store
         Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
         reservations.add(reservation);
+        System.out.println("reservation added");
 
         return reservation;
     }
 
-    // needs a way to specify dates in search room should only be false if booked between those dates.
+
     public List<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
 
-        List<IRoom> result = new ArrayList<>();
+        // check to see if checkin/check dates cause a room to be unavailable
         for (Reservation res : reservations) {
-            if((checkInDate.equals(res.getCheckOutDate()) || checkInDate.before(res.getCheckOutDate()))
-            || (checkOutDate.equals(res.getCheckInDate()) || checkOutDate.after(res.getCheckInDate()))){
-                continue;
-            }else {
-                result.add(res.getRoom());
+            if((((checkInDate.before(res.getCheckOutDate())) || (checkInDate.equals(res.getCheckOutDate()))) &&
+                    ((checkInDate.after(res.getCheckInDate()))) || (checkInDate.equals(res.getCheckInDate())))
+            || (((checkOutDate.after(res.getCheckInDate())) || (checkOutDate.equals(res.getCheckInDate()))) &&
+                    ((checkOutDate.before(res.getCheckOutDate())) || (checkOutDate.equals(res.getCheckOutDate()))))){
+                String roomId = res.getRoom().getRoomNumber();
+                // make room as unavailable
+                rooms.get(roomId).setIsFree(false);
             }
         }
-        return result;
+
+        // stream. map room to result if free, collect to list
+       List<IRoom> freeRooms =  rooms.values().stream()
+                .filter(IRoom::isFree)
+                .toList();
+        // set all rooms back to free, ready for next query
+        rooms.values().forEach(room -> room.setIsFree(true));
+
+        return freeRooms;
     }
 
     public List<Reservation> getCustomerReservations(Customer customer) {
@@ -70,6 +81,7 @@ public class ReservationService {
     public void printAllReservations(){
         reservations.forEach(System.out::println);
     }
+
     public List<IRoom> getRooms() {
         return new ArrayList<>(rooms.values());
     }

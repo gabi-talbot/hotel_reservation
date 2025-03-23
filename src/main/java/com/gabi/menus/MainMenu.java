@@ -3,9 +3,8 @@ package com.gabi.menus;
 import com.gabi.api.HotelResource;
 import com.gabi.models.IRoom;
 import com.gabi.models.Reservation;
+import com.gabi.models.Room;
 
-import java.sql.SQLOutput;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,8 +16,13 @@ public class MainMenu {
 
 
     private static final String DATE_FORMAT = "MM/dd/yyyy";
-    SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-    HotelResource hotelResource = HotelResource.getInstance();
+    SimpleDateFormat formatter;
+    HotelResource hotelResource;
+
+    public MainMenu() {
+        hotelResource = HotelResource.getInstance();
+        formatter = new SimpleDateFormat(DATE_FORMAT);
+    }
 
 
     public void display() {
@@ -37,15 +41,22 @@ public class MainMenu {
     }
 
     public void findAndReserve(Scanner sc) {
+        sc.nextLine();
         System.out.println("Enter check in date mm/dd/yyyy eg: 12/03/2025");
         String inDate = sc.nextLine();
-        // Convert string to Date
+        // Try to convert String to Date
         Date checkInDate = checkDate(inDate);
+        if (checkInDate == null) {
+            return;
+        }
 
         System.out.println("Enter check out date mm/dd/yyyy eg: 12/03/2025");
         String outDate = sc.nextLine();
-        // Convert String to Date
+        // Try to convert String to Date
         Date checkOutDate = checkDate(outDate);
+        if (checkOutDate == null) {
+            return;
+        }
 
         // find available rooms
         findRooms(checkInDate, checkOutDate);
@@ -61,7 +72,7 @@ public class MainMenu {
             System.out.println("Please create an account before continuing");
             return;
         }
-
+        sc.nextLine();
         // method called if customer has an account and wants to book a room
         Reservation reservation = booking(sc, checkInDate, checkOutDate);
         // confirm booking
@@ -74,15 +85,18 @@ public class MainMenu {
         try {
             checkedDate = formatter.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
             System.out.println("Please enter a valid date mm/dd/yyyy eg: 12/03/2025");
+            return checkedDate;
         }
         return checkedDate;
     }
 
     private void findRooms(Date checkInDate, Date checkOutDate) {
+
+        // check date range not accurate - should be returning room 101
         List<IRoom> roomList = hotelResource.findARoom(checkInDate, checkOutDate);
-        roomList.forEach(room -> System.out.println(room.toString()));
+        System.out.println("Available rooms: ");
+        roomList.forEach(System.out::println);
     }
 
     private Reservation booking(Scanner sc, Date checkInDate, Date checkOutDate) {

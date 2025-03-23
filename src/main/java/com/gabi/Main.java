@@ -4,12 +4,18 @@ import com.gabi.api.AdminResource;
 import com.gabi.api.HotelResource;
 import com.gabi.menus.AdminMenu;
 import com.gabi.menus.MainMenu;
+import com.gabi.utilities.Filler;
 
+import javax.swing.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Filler fill = new Filler();
+        fill.seed();
+
 
         // Get/instantiate dependencies
         MainMenu mainMenu = new MainMenu();
@@ -18,7 +24,7 @@ public class Main {
         HotelResource hotelResource = HotelResource.getInstance();
 
 
-
+        // Scanner resource to read input
         Scanner sc = new Scanner(System.in);
         int input = 0;
 

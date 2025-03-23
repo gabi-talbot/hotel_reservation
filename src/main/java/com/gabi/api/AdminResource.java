@@ -9,12 +9,13 @@ import java.util.List;
 
 public class AdminResource {
 
-    // autowiring service instances
-    private static CustomerService customerService = CustomerService.getInstance();
-    private static ReservationService reservationService = ReservationService.getInstance();
+    private static CustomerService customerService;
+    private static ReservationService reservationService;
     private static final AdminResource reference = new AdminResource();
 
     private AdminResource() {
+        customerService = CustomerService.getInstance();
+        reservationService = ReservationService.getInstance();
     }
 
     public static AdminResource getInstance() {
