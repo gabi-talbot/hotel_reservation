@@ -52,7 +52,7 @@ public class Main {
                 case 3: mainMenu.createAccount(sc);
                 continue;
                 // when exiting this method will relinquish control
-                case 4: adminMenu.display();
+                case 4: adminMenu.display(sc);
             }
         }while (input != 5);
 
