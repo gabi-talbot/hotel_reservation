@@ -1,9 +1,9 @@
 package com.gabi.models;
 
 public class Room implements IRoom {
-    private String roomNumber;
+    private final String roomNumber;
     Double price;
-    private RoomType roomType;
+    private final RoomType roomType;
     private boolean isFree;
 
     public Room(String roomNumber, Double price, RoomType roomType) {
@@ -13,22 +13,22 @@ public class Room implements IRoom {
         this.isFree = true;
     }
     @Override
-    public String getRoomNumber() {
+    public final String getRoomNumber() {
         return this.roomNumber;
     }
 
     @Override
-    public Double getRoomPrice() {
+    public final Double getRoomPrice() {
         return this.price;
     }
 
     @Override
-    public RoomType getRoomType() {
+    public final RoomType getRoomType() {
         return this.roomType;
     }
 
     @Override
-    public boolean isFree() {
+    public final boolean isFree() {
         return this.isFree;
     }
 

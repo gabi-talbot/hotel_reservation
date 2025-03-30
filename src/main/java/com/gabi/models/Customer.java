@@ -24,7 +24,7 @@ public class Customer {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public String getEmail() {
+    public final String getEmail() {
         return email;
     }
 

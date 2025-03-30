@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Reservation {
 
-    private Customer customer;
-    private IRoom room;
-    private Date checkInDate;
-    private Date checkOutDate;
+    private final Customer customer;
+    private final IRoom room;
+    private final Date checkInDate;
+    private final Date checkOutDate;
 
     // How to get customer from the collection
 
@@ -28,19 +28,19 @@ public class Reservation {
                 '}';
     }
 
-    public Date getCheckInDate() {
+    public final Date getCheckInDate() {
         return checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public final Date getCheckOutDate() {
         return checkOutDate;
     }
 
-    public IRoom getRoom() {
+    public final IRoom getRoom() {
         return room;
     }
 
-    public Customer getCustomer() {
+    public final Customer getCustomer() {
         return customer;
     }
 }
