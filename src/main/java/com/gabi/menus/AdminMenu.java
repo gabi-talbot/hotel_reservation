@@ -1,6 +1,7 @@
 package com.gabi.menus;
 
 import com.gabi.api.AdminResource;
+import com.gabi.api.HotelResource;
 import com.gabi.models.*;
 
 import java.util.ArrayList;
@@ -10,15 +11,17 @@ import java.util.Scanner;
 
 public class AdminMenu {
 
-    private AdminResource adminResource;
+    private final AdminResource adminResource;
+    private final HotelResource hotelResource;
 
     public AdminMenu() {
         adminResource = AdminResource.getInstance();
+        hotelResource = HotelResource.getInstance();
     }
 
     public void display(Scanner sc) {
         sc.nextLine();
-        int input = sc.nextInt();
+        int input = 0;
         do {
             menu();
             try {
@@ -77,20 +80,44 @@ public class AdminMenu {
         adminResource.displayAllReservations();
     }
 
-    // ToDo - add validation
+
     private void addRoom(Scanner sc) {
         sc.nextLine();
         System.out.println("Enter room number");
         String roomNumber = sc.nextLine();
+        try{
+            Integer.parseInt(roomNumber);
+        }catch (NumberFormatException e){
+            System.out.println("Invalid room number");
+            return;
+        }
+
         System.out.println("Enter room price");
-        Double price = sc.nextDouble();
-        System.out.println("Enter room type");
-        RoomType roomType = RoomType.valueOf(sc.nextLine());
+        double price;
+        try {
+            price = sc.nextDouble();
+        }catch (InputMismatchException e){
+            System.out.println("Invalid room price");
+            return;
+        }
+
+        sc.nextLine();
+        System.out.println("Enter room type: double or single");
+        RoomType roomType;
+        try{
+            roomType = RoomType.valueOf(sc.nextLine().toUpperCase());
+        }catch (IllegalArgumentException e){
+            System.out.println("Invalid room type");
+            return;
+        }
+
+        // Create room, save and return control
         List<IRoom> rooms = new ArrayList<>();
         IRoom room = new Room(roomNumber, price, roomType);
         rooms.add(room);
-
         adminResource.addRoom(rooms);
+        IRoom savedRoom = hotelResource.getRoom(roomNumber);
+        System.out.println(savedRoom + " added successfully");
     }
 
 }

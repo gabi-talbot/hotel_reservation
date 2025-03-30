@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class HotelResource {
 
-
     private  CustomerService customerService;
     private  ReservationService reservationService;
     // static reference
