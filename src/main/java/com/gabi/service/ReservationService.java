@@ -12,8 +12,8 @@ import java.util.*;
  */
 public class ReservationService {
 
-    // class variable only accessed via getInstance mathod
-    private static ReservationService reference = new ReservationService();
+    // class variable only accessed via getInstance method
+    private static final ReservationService reference = new ReservationService();
     private static List<Reservation> reservations;
     private static Map<String, IRoom> rooms;
 
