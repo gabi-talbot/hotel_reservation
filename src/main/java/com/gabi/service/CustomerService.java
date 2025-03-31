@@ -16,7 +16,7 @@ public class CustomerService {
     // Private class variable only accessible via the getInstance method
     private static final CustomerService reference = new CustomerService();
     // should this be a class constant or is it ok as we only have one instance?
-    private Map<String, Customer> customerMap;
+    private final Map<String, Customer> customerMap;
 
     private CustomerService() {
         this.customerMap = new HashMap<>();
@@ -38,7 +38,12 @@ public class CustomerService {
         Customer customer = customerMap.get(customerEmail);
         return Optional.ofNullable(customer);
     }
+
     public List<Customer> getAllCustomers() {
         return new ArrayList<>(customerMap.values());
+    }
+
+    public Map<String, Customer> getCustomerMap() {
+        return customerMap;
     }
 }

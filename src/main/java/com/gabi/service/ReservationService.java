@@ -3,14 +3,12 @@ package com.gabi.service;
 import com.gabi.models.Customer;
 import com.gabi.models.IRoom;
 import com.gabi.models.Reservation;
-import com.gabi.models.Room;
 
-import java.time.Period;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 /**
- * Service class designed as a singleton Reservation model
+ * Service class designed as a singleton
  */
 public class ReservationService {
 
@@ -39,7 +37,7 @@ public class ReservationService {
     public Reservation reserveARoom(Customer customer, IRoom room,
                                     Date checkInDate, Date checkOutDate) {
 
-        // Create reservation and add reservation to Collection store
+        // Create reservation and add reservation to Collection for storage
         Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
         reservations.add(reservation);
         System.out.println("reservation added");
@@ -50,7 +48,7 @@ public class ReservationService {
 
     public List<IRoom> findRooms(Date checkInDate, Date checkOutDate) {
 
-        // check to see if checkin/check dates cause a room to be unavailable
+        // check to see if checkin/check dates causes a room to be unavailable
         for (Reservation res : reservations) {
             if((((checkInDate.before(res.getCheckOutDate())) || (checkInDate.equals(res.getCheckOutDate()))) &&
                     ((checkInDate.after(res.getCheckInDate()))) || (checkInDate.equals(res.getCheckInDate())))
@@ -62,7 +60,7 @@ public class ReservationService {
             }
         }
 
-        // stream. map room to result if free, collect to list
+        // stream and filter room to result if it is free. Finally, collect to list
        List<IRoom> freeRooms =  rooms.values().stream()
                 .filter(IRoom::isFree)
                 .toList();
