@@ -35,9 +35,20 @@ public class ReservationService {
     }
 
     public Reservation reserveARoom(Customer customer, IRoom room,
-                                    Date checkInDate, Date checkOutDate) {
+                                    Date checkInDate, Date checkOutDate) throws IllegalArgumentException {
 
-        // Create reservation and add reservation to Collection for storage
+        // check if there is a matching reservation
+        List<Reservation> customerReservations = getCustomerReservations(customer);
+        List<Reservation> filteredReservations = customerReservations.stream()
+                .filter(reservation -> ((reservation.getCheckInDate().before(checkInDate) || reservation.getCheckInDate().equals(checkInDate))
+                && (reservation.getCheckOutDate().after(checkInDate) || reservation.getCheckOutDate().equals(checkInDate))))
+                .filter(reservation -> ((reservation.getCheckInDate().before(checkOutDate) || reservation.getCheckInDate().equals(checkOutDate))
+                        && (reservation.getCheckOutDate().after(checkOutDate) || reservation.getCheckOutDate().equals(checkOutDate))))
+                .toList();
+        // throw if reservation exists in the date range
+        if (!filteredReservations.isEmpty()) throw new IllegalArgumentException("Reservation already present for this date range");
+
+        // Else, create reservation and add reservation to Collection for storage
         Reservation reservation = new Reservation(customer, room, checkInDate, checkOutDate);
         reservations.add(reservation);
         System.out.println("reservation added");

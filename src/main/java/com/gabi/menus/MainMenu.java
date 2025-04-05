@@ -72,9 +72,15 @@ public class MainMenu {
             return;
         }
         sc.nextLine();
-        // method called if customer has an account and wants to book a room
-        Reservation reservation = booking(sc, checkInDate, checkOutDate);
-        // confirm booking
+        Reservation reservation;
+        try {
+            // method called if customer has an account and wants to book a room
+            reservation = booking(sc, checkInDate, checkOutDate);
+        }catch (IllegalArgumentException e){
+            System.out.println(e.toString());
+            return;
+        }
+        // If valid, confirm booking
         System.out.println(reservation.toString());
 
     }
