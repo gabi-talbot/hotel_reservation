@@ -32,12 +32,12 @@ public class Filler {
 
         // add rooms to reservationService map
         IRoom room1 = new Room("101", 50.00, RoomType.SINGLE);
-        IRoom room2 = new Room("102", 50.00, RoomType.SINGLE);
-        IRoom room3 = new Room("103", 75.00, RoomType.DOUBLE);
+//        IRoom room2 = new Room("102", 50.00, RoomType.SINGLE);
+//        IRoom room3 = new Room("103", 75.00, RoomType.DOUBLE);
         List<IRoom> ls = new ArrayList<>();
         ls.add(room1);
-        ls.add(room2);
-        ls.add(room3);
+//        ls.add(room2);
+//        ls.add(room3);
 
         reservationService.addRoom(ls);
 

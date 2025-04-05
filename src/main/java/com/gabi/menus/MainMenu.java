@@ -140,8 +140,19 @@ public class MainMenu {
 
     private void findRooms(Date checkInDate, Date checkOutDate) {
 
-        // check date range not accurate - should be returning room 101
+        // check date range provided first
         List<IRoom> roomList = hotelResource.findARoom(checkInDate, checkOutDate);
+        if (roomList.isEmpty()) {
+            System.out.println("No rooms found, extending date range by 7 days");
+            List<IRoom> extendedRooms = hotelResource.extendedFindARoom(checkInDate, checkOutDate);
+            if (extendedRooms.isEmpty()) {
+                System.out.println("No rooms available.");
+                return;
+            }
+            System.out.println("Available rooms: ");
+            extendedRooms.forEach(System.out::println);
+            return;
+        }
         System.out.println("Available rooms: ");
         roomList.forEach(System.out::println);
     }

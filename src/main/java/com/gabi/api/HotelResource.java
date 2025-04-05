@@ -55,6 +55,9 @@ public class HotelResource {
         return reservationService.findRooms(checkInDate, checkOutDate);
     }
 
+    public List<IRoom> extendedFindARoom(Date checkInDate, Date checkOutDate) {
+        return reservationService.findExtendedRooms(checkInDate, checkOutDate);
+    }
 
 
 

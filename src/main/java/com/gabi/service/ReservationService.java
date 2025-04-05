@@ -4,6 +4,8 @@ import com.gabi.models.Customer;
 import com.gabi.models.IRoom;
 import com.gabi.models.Reservation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -75,10 +77,18 @@ public class ReservationService {
        List<IRoom> freeRooms =  rooms.values().stream()
                 .filter(IRoom::isFree)
                 .toList();
+
         // set all rooms back to free, ready for next query
         rooms.values().forEach(room -> room.setIsFree(true));
 
         return freeRooms;
+    }
+
+    public List<IRoom> findExtendedRooms(Date checkInDate, Date checkOutDate) {
+        Date newCheckInDate = addToDate(checkInDate);
+        Date newCheckOutDate = addToDate(checkOutDate);
+
+        return findRooms(newCheckInDate, newCheckOutDate);
     }
 
     public List<Reservation> getCustomerReservations(Customer customer) {
@@ -94,4 +104,14 @@ public class ReservationService {
     public List<IRoom> getRooms() {
         return new ArrayList<>(rooms.values());
     }
+
+    // Utility to add 7 days to a Date object
+    private Date addToDate(Date dateIn){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateIn);
+        c.add(Calendar.DATE, 7);
+        return c.getTime();
+    }
+
 }
